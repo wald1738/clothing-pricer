@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   try {
     const { imageUrl } = req.body;
     const response = await openai.chat.completions.create({
-      model: "gpt-4-vision-preview",
+      model: "gpt-4-vision",
       messages: [
         {
           role: "system",
