@@ -17,7 +17,7 @@
       const reader = new FileReader();
       reader.onloadend = async () => {
         const imageUrl = reader.result;
-        const res = await fetch("/analyze", {
+        const res = await fetch("/api/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ imageUrl }),
