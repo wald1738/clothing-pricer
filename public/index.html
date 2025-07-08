@@ -6,27 +6,30 @@
 </head>
 <body>
   <h1>Upload a Shirt Image</h1>
-  <input type="file" id="fileInput">
+  <input type="file" accept="image/*" onchange="handleFile(event)">
   <button onclick="upload()">Analyze</button>
   <pre id="result"></pre>
 
-  <script>
-    async function upload() {
-      const fileInput = document.getElementById('fileInput');
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const imageUrl = reader.result;
-        const res = await fetch("/api/analyze", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ imageUrl }),
-        });
-        const data = await res.json();
-        document.getElementById('result').innerText = data.description || data.error;
-      };
-      reader.readAsDataURL(file);
-    }
-  </script>
+<script>
+async function handleFile(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = async () => {
+    const imageUrl = reader.result;
+
+    const res = await fetch("/api/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ imageUrl }),
+    });
+
+    const data = await res.json();
+    document.getElementById("result").innerText = data.description;
+  };
+
+  reader.readAsDataURL(file);
+}
+</script>
 </body>
 </html>
